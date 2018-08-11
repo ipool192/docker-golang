@@ -1,0 +1,10 @@
+app:
+  port: 7714
+  name: "app-convert-currency"
+database:
+  name: "convert-currency"
+  host: "mariadb-connect"
+  port: 3306 
+  user: "root"
+  password: "my-secret-pw"
+  charset: "utf8" 

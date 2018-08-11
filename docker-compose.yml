@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  app-convert-currency:
+    container_name: app_convert_currency
+    ports:
+      - 7714:7714
+    image: golang:1.10-alpine3.8
+    volumes:
+      - .:/go/src/ipool192/docker-golang
+    working_dir: /go/src/ipool192/docker-golang
+    command: go run main.go
+    links:
+      - mariadb-connect
+
+  mariadb-connect:
+    container_name: mariadb_connect
+    image: mariadb:10.3.8
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
+    ports:
+      - 3306:3306

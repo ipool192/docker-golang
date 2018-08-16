@@ -8,6 +8,7 @@ import (
 
 	config "github.com/spf13/viper"
 	"github.com/urfave/negroni"
+	"github.com/rs/cors"
 )
 
 var text = `
@@ -32,9 +33,11 @@ func main() {
 	// initialize route
 	routes := new(routes.Route)
 	router := routes.Init()
+	// cors
+	c := cors.Default().Handler(router)
 	// set negroni
 	n := negroni.Classic()
-	n.UseHandler(router)
+	n.UseHandler(c)
 	// initialize serve
 	server := &http.Server{
 		Addr:    ":" + config.GetString("app.port"),

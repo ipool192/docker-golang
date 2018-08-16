@@ -1,0 +1,56 @@
+{{ define "exchange-add" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    {{ template "header" }}
+</head>
+<body>
+    {{ template "menu" }}
+    <div class="container">
+        <h1>Add Exchange Rate</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <form id="form-add">
+                    <div class="form-group">
+                        <label for="formInputFrom">From</label>
+                        <input type="text" class="form-control" id="formInputFrom" name="from" placeholder="Enter FROM">
+                    </div>
+                    <div class="form-group">
+                        <label for="formInputTo">To</label>
+                        <input type="text" class="form-control" id="formInputTo" name="to" placeholder="Enter To">
+                    </div>
+                    <button type="button" id="button-submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{ template "footer" }}
+    <script>
+        jQuery("#button-submit").on('click', function(){
+            var formInputFrom = jQuery('#formInputFrom').val()
+            var formInputTo = jQuery('#formInputTo').val()
+
+            if (formInputFrom.length == 0 || formInputTo.length == 0) {
+                alert("Please fill the form!")
+                return
+            }
+
+            jQuery.post(base_url + "exchange-rate/add", jQuery('#form-add').serialize(), function(result){
+                alert(result.message);
+                if (result.code == 1000) {
+                    jQuery('#formInputFrom').val("");
+                    jQuery('#formInputTo').val("");
+                }
+            })
+            return
+        })
+    </script>
+</body>
+</html>
+{{ end }}

@@ -1,5 +1,5 @@
-hash: 18bc044aacc851c1891ee478353bddf79f859fc2985e991a06cd58c266e87d18
-updated: 2018-08-07T13:10:03.880390543+07:00
+hash: f46a2da4e3b2eee689264f65e587cd5bacf89b4adf153ddae50138e7875d784d
+updated: 2018-08-16T08:55:54.454490092+07:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
@@ -27,6 +27,8 @@ imports:
   version: 06020f85339e21b2478f756a78e295255ffa4d6a
 - name: github.com/pelletier/go-toml
   version: 0131db6d737cfbbfb678f8b7d92e55e27ce46224
+- name: github.com/rs/cors
+  version: 3fb1b69b103a84de38a19c3c6ec073dd6caa4d3f
 - name: github.com/spf13/afero
   version: 57afd63c68602b63ed976de00dd066ccb3c319db
   subpackages:

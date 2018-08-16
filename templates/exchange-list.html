@@ -1,0 +1,77 @@
+{{ define "exchange-list" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    {{ template "header" }}
+</head>
+<body>
+    {{ template "menu" }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>Exchange Rate List</h1>
+            </div>
+            <div class="col-md-6">
+                <a href="/exchange-list/add" class="btn btn-primary">Add</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td text-align="center">FROM</td>
+                            <td text-align="center">TO</td>
+                            <td text-align="center">&nbsp;</td>
+                        </tr>
+                    </thead>
+                    <tbody id="exchange-list">
+                        <tr>
+                            <td colspan="2" id="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {{ template "footer" }}
+    <script>
+        jQuery.get(base_url + "exchange-rates", function(result){
+            var html = "";
+            jQuery.each(result.data, function(index, obj){
+                html += "<tr id='list-"+obj.id+"'>";
+                html += "<td text-align='center'>"+obj.ex_from+"</td>";
+                html += "<td text-align='center'>"+obj.ex_to+"</td>";
+                html += "<td text-align='center'><button type='button' class='btn btn-remove btn-danger' data-x='"+obj.id+"'>Remove</button></td>";
+                html += "</tr>";
+            })
+            jQuery("#exchange-list").html(html);
+            
+        })
+
+        jQuery("#exchange-list").on('click', '.btn-remove', function(){
+            if (!confirm("Are you sure")) {
+                return
+            }
+
+            var id = jQuery(this).data('x');
+            
+            jQuery.ajax({
+                method:"DELETE",
+                url:base_url + "exchange-rate/delete/"+id,
+                success:function(result){
+                    jQuery('#list-'+id).remove();
+                    alert(result.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+{{ end }}

@@ -1,0 +1,76 @@
+{{ define "daily-exchange-add" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    {{ template "header" }}
+</head>
+<body>
+    {{ template "menu" }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>Add Exchange Rate</h1>
+            </div>
+            <div class="col-md-6">
+                <a href="/exchange-list" class="btn btn-primary">Back</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <form id="form-add">
+                    <div class="form-group">
+                        <label for="formInputDate">Date</label>
+                        <input type="text" class="form-control" id="formInputDate" name="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="formInputID">Exchange Rate</label>
+                        <select class="form-control" id="formInputID" name="exchange_rate_id"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="formInputRate">Rate</label>
+                        <input type="text" class="form-control" id="formInputRate" name="rate" placeholder="Enter Rate">
+                    </div>
+                    <button type="button" id="button-submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{ template "footer" }}
+    <script>
+        jQuery.get(base_url + "exchange-rates", function(result){
+            var html = "";
+            jQuery.each(result.data, function(index, obj){
+                html += "<option value='"+obj.id+"'>"+obj.ex_from+"-"+obj.ex_to+"</option>";
+            })
+            jQuery("#formInputID").html(html);
+            
+        })
+        jQuery("#button-submit").on('click', function(){
+            var formInputDate = jQuery('#formInputDate').val()
+            var formInputID = jQuery('#formInputID').val()
+            var formInputRate = jQuery('#formInputRate').val()
+
+            if (formInputDate.length == 0 || formInputRate.length == 0 || formInputID.length == 0) {
+                alert("Please fill the form!")
+                return
+            }
+
+            jQuery.post(base_url + "daily-exchange-rate/add", jQuery('#form-add').serialize(), function(result){
+                alert(result.message);
+                if (result.code == 1000) {
+                    jQuery('#formInputDate').val("");
+                    jQuery('#formInputRate').val("");
+                }
+            })
+            return
+        })
+    </script>
+</body>
+</html>
+{{ end }}

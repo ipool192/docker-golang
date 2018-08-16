@@ -30,6 +30,11 @@ func (h *ExchangeRateHandler) AddExchangeRates(res http.ResponseWriter, req *htt
 	req.ParseForm()
 	var data = map[string]string{}
 
+	if req.FormValue("from") == "" || req.FormValue("to") == "" {
+		helpers.Response(res, http.StatusOK, "Please fill the form!", nil, 1004)
+		return
+	}
+
 	data["from"] = req.FormValue("from")
 	data["to"] = req.FormValue("to")
 

@@ -5,6 +5,8 @@ import (
 	"ipool192/docker-golang/infrastructures"
 	"ipool192/docker-golang/repositories"
 
+	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
@@ -28,6 +30,12 @@ func (r *Route) Init() *mux.Router {
 
 	// router pages
 	router.HandleFunc("/", homeHandler.Home).Methods("GET")
+	router.HandleFunc("/exchange-list", homeHandler.ExchangeRateList).Methods("GET")
+	router.HandleFunc("/exchange-list/add", homeHandler.ExchangeRateAdd).Methods("GET")
+	router.HandleFunc("/daily-exchange-rate/add", homeHandler.DailyExchangeRateAdd).Methods("GET")
+
+	router.PathPrefix("/js/").Handler(http.FileServer(http.Dir("./templates/assets/")))
+	router.PathPrefix("/css/").Handler(http.FileServer(http.Dir("./templates/assets/")))
 
 	return router
 }
